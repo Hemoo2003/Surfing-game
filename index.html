@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Life Game - Surfing</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            padding: 20px;
+        }
+
+        .panel {
+            background: #222;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .status-bar {
+            background: #1b1b1b;
+            border: 2px solid #444;
+            border-radius: 15px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .status-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-value {
+            font-weight: bold;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .social-action-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #191919;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .counter button {
+            width: 45px;
+            height: 45px;
+            font-size: 24px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .counter-number {
+            font-size: 28px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .confirm-button {
+            width: 100%;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .wave-result-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .wave-failure {
+            background: #b00000;
+            color: white;
+        }
+
+        .wave-success {
+            background: limegreen;
+            color: white;
+        }
+
+        .wave-nature-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .wave-natural {
+            background: limegreen;
+            color: white;
+        }
+
+        .wave-intended {
+            background: #b00000;
+            color: white;
+        }
+
+        .wave-history-item {
+            background: #191919;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .wave-history-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .wave-history-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            color: #ccc;
+        }
+
+        .rating-positive {
+            color: limegreen;
+            font-weight: bold;
+        }
+
+        .rating-negative {
+            color: #ff5555;
+            font-weight: bold;
+        }
+
+        .rating-neutral {
+            color: #aaa;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<h1>🌊 LIFE GAME</h1>
+
+
+<div class="status-bar">
+
+    <div class="status-title">
+        STATUS
+    </div>
+
+    <div class="status-item">
+
+        <span>
+            🏄‍♂️ The Surfer
+        </span>
+
+        <span
+            id="waveRatingDisplay"
+            class="status-value"
+        >
+            1000
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <h2>🌊 Wave Surfing</h2>
+
+    <button id="logWaveButton">
+        Log a Wave
+    </button>
+
+
+    <div
+        id="waveBox"
+        class="social-action-box"
+    >
+
+
+        <h3>Wave Source</h3>
+
+        <button
+            id="waveNatureButton"
+            class="wave-nature-button wave-natural"
+        >
+            🟢 Natural
+        </button>
+
+
+        <h3>Difficulty</h3>
+
+        <div class="counter">
+
+            <button id="waveDifficultyMinus">
+                −
+            </button>
+
+            <span
+                id="waveDifficultyCount"
+                class="counter-number"
+            >
+                1
+            </span>
+
+            <button id="waveDifficultyPlus">
+                +
+            </button>
+
+        </div>
+
+
+        <h3>Outcome</h3>
+
+        <button
+            id="waveOutcomeButton"
+            class="wave-result-button wave-failure"
+        >
+            🔴 Did Not Succeed
+        </button>
+
+
+        <div id="waveDurationBox">
+
+            <h3>Minutes Resisted</h3>
+
+            <div class="counter">
+
+                <button id="waveDurationMinus">
+                    −
+                </button>
+
+                <span
+                    id="waveDurationCount"
+                    class="counter-number"
+                >
+                    0
+                </span>
+
+                <button id="waveDurationPlus">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="waveConfirm"
+            class="confirm-button"
+        >
+            Confirm
+        </button>
+
+
+        <p
+            id="waveResultDisplay"
+            style="text-align:center;"
+        >
+            Ready.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <h2>📜 Wave History</h2>
+
+    <div id="waveHistory">
+
+        <p style="color:#aaa;">
+            No waves logged yet.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <h2>↩️ Actions</h2>
+
+    <button id="undoButton">
+        ↩️ Undo
+    </button>
+
+    <button id="redoButton">
+        ↪️ Redo
+    </button>
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   SAVED DATA
+   ========================================================= */
+
+
+let savedData =
+    JSON.parse(
+        localStorage.getItem("lifeGameSurfing")
+    );
+
+
+let waveRating =
+    savedData &&
+    typeof savedData.waveRating === "number"
+        ? savedData.waveRating
+        : 1000;
+
+
+let waveHistory =
+    savedData &&
+    Array.isArray(savedData.waveHistory)
+        ? savedData.waveHistory
+        : [];
+
+
+/* =========================================================
+   UNDO / REDO DATA
+   ========================================================= */
+
+
+let undoStack =
+    savedData &&
+    Array.isArray(savedData.undoStack)
+        ? savedData.undoStack
+        : [];
+
+
+let redoStack =
+    savedData &&
+    Array.isArray(savedData.redoStack)
+        ? savedData.redoStack
+        : [];
+
+
+function saveGame() {
+
+    localStorage.setItem(
+        "lifeGameSurfing",
+
+        JSON.stringify({
+
+            waveRating:
+                waveRating,
+
+            waveHistory:
+                waveHistory,
+
+            undoStack:
+                undoStack,
+
+            redoStack:
+                redoStack
+
+        })
+    );
+
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+
+let waveRatingDisplay =
+    document.getElementById(
+        "waveRatingDisplay"
+    );
+
+
+function updateStatusBar() {
+
+    waveRatingDisplay.textContent =
+        Math.round(waveRating);
+
+}
+
+
+/* =========================================================
+   WAVE VARIABLES
+   ========================================================= */
+
+
+let waveDifficulty = 1;
+
+let waveSucceeded = false;
+
+let waveDuration = 0;
+
+let waveNatural = true;
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+
+let logWaveButton =
+    document.getElementById(
+        "logWaveButton"
+    );
+
+
+let waveBox =
+    document.getElementById(
+        "waveBox"
+    );
+
+
+let waveNatureButton =
+    document.getElementById(
+        "waveNatureButton"
+    );
+
+
+let waveDifficultyMinus =
+    document.getElementById(
+        "waveDifficultyMinus"
+    );
+
+
+let waveDifficultyPlus =
+    document.getElementById(
+        "waveDifficultyPlus"
+    );
+
+
+let waveDifficultyCount =
+    document.getElementById(
+        "waveDifficultyCount"
+    );
+
+
+let waveOutcomeButton =
+    document.getElementById(
+        "waveOutcomeButton"
+    );
+
+
+let waveDurationBox =
+    document.getElementById(
+        "waveDurationBox"
+    );
+
+
+let waveDurationMinus =
+    document.getElementById(
+        "waveDurationMinus"
+    );
+
+
+let waveDurationPlus =
+    document.getElementById(
+        "waveDurationPlus"
+    );
+
+
+let waveDurationCount =
+    document.getElementById(
+        "waveDurationCount"
+    );
+
+
+let waveConfirm =
+    document.getElementById(
+        "waveConfirm"
+    );
+
+
+let waveResultDisplay =
+    document.getElementById(
+        "waveResultDisplay"
+    );
+
+
+let waveHistoryDisplay =
+    document.getElementById(
+        "waveHistory"
+    );
+
+
+let undoButton =
+    document.getElementById(
+        "undoButton"
+    );
+
+
+let redoButton =
+    document.getElementById(
+        "redoButton"
+    );
+
+
+/* =========================================================
+   OPEN / CLOSE WAVE PANEL
+   ========================================================= */
+
+
+logWaveButton.addEventListener(
+    "click",
+
+    function() {
+
+        waveBox.style.display =
+            waveBox.style.display === "block"
+                ? "none"
+                : "block";
+
+    }
+);
+
+
+/* =========================================================
+   NATURAL / INTENDED
+   ========================================================= */
+
+
+waveNatureButton.addEventListener(
+    "click",
+
+    function() {
+
+        waveNatural =
+            !waveNatural;
+
+
+        if (waveNatural) {
+
+            waveNatureButton.textContent =
+                "🟢 Natural";
+
+            waveNatureButton.classList.remove(
+                "wave-intended"
+            );
+
+            waveNatureButton.classList.add(
+                "wave-natural"
+            );
+
+        } else {
+
+            waveNatureButton.textContent =
+                "🔴 Intended";
+
+            waveNatureButton.classList.remove(
+                "wave-natural"
+            );
+
+            waveNatureButton.classList.add(
+                "wave-intended"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DIFFICULTY
+   ========================================================= */
+
+
+waveDifficultyPlus.addEventListener(
+    "click",
+
+    function() {
+
+        if (waveDifficulty < 10) {
+
+            waveDifficulty++;
+
+        }
+
+        waveDifficultyCount.textContent =
+            waveDifficulty;
+
+    }
+);
+
+
+waveDifficultyMinus.addEventListener(
+    "click",
+
+    function() {
+
+        if (waveDifficulty > 1) {
+
+            waveDifficulty--;
+
+        }
+
+        waveDifficultyCount.textContent =
+            waveDifficulty;
+
+    }
+);
+
+
+/* =========================================================
+   OUTCOME
+   ========================================================= */
+
+
+waveOutcomeButton.addEventListener(
+    "click",
+
+    function() {
+
+        waveSucceeded =
+            !waveSucceeded;
+
+
+        if (waveSucceeded) {
+
+            waveOutcomeButton.textContent =
+                "🟢 Succeeded";
+
+            waveOutcomeButton.classList.remove(
+                "wave-failure"
+            );
+
+            waveOutcomeButton.classList.add(
+                "wave-success"
+            );
+
+            waveDurationBox.style.display =
+                "none";
+
+        } else {
+
+            waveOutcomeButton.textContent =
+                "🔴 Did Not Succeed";
+
+            waveOutcomeButton.classList.remove(
+                "wave-success"
+            );
+
+            waveOutcomeButton.classList.add(
+                "wave-failure"
+            );
+
+            waveDurationBox.style.display =
+                "block";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   RESISTANCE DURATION
+   ========================================================= */
+
+
+waveDurationPlus.addEventListener(
+    "click",
+
+    function() {
+
+        waveDuration++;
+
+        waveDurationCount.textContent =
+            waveDuration;
+
+    }
+);
+
+
+waveDurationMinus.addEventListener(
+    "click",
+
+    function() {
+
+        if (waveDuration > 0) {
+
+            waveDuration--;
+
+        }
+
+        waveDurationCount.textContent =
+            waveDuration;
+
+    }
+);
+
+
+/* =========================================================
+   RATING SYSTEM
+   ========================================================= */
+
+
+function getWaveChallengeRating(
+    difficulty
+) {
+
+    return 1000 +
+        (
+            (difficulty - 1) * 500
+        );
+
+}
+
+
+function getExpectedWinProbability(
+    playerRating,
+    challengeRating
+) {
+
+    return 1 /
+        (
+            1 +
+            Math.pow(
+                10,
+                (
+                    challengeRating -
+                    playerRating
+                ) / 400
+            )
+        );
+
+}
+
+
+let waveKFactor = 600;
+
+
+function calculateWaveRatingChange() {
+
+    let challengeRating =
+        getWaveChallengeRating(
+            waveDifficulty
+        );
+
+
+    let expected =
+        getExpectedWinProbability(
+            waveRating,
+            challengeRating
+        );
+
+
+    /*
+       Intended + succeeded:
+       No rating change.
+    */
+
+    if (!waveNatural) {
+
+        if (waveSucceeded) {
+
+            return 0;
+
+        }
+
+    }
+
+
+    /*
+       Successful wave.
+    */
+
+    if (waveSucceeded) {
+
+        return (
+            waveKFactor *
+            (1 - expected)
+        );
+
+    }
+
+
+    /*
+       Failed wave.
+    */
+
+    let baseLoss =
+        waveKFactor *
+        expected;
+
+
+    let resistanceMultiplier =
+        Math.max(
+            0.10,
+            1 -
+            (
+                waveDuration / 60
+            ) * 0.90
+        );
+
+
+    return -(
+        baseLoss *
+        resistanceMultiplier
+    );
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+
+function addWaveToHistory(
+    ratingChange,
+    oldRating,
+    newRating
+) {
+
+    let wave = {
+
+        source:
+            waveNatural
+                ? "Natural"
+                : "Intended",
+
+        difficulty:
+            waveDifficulty,
+
+        outcome:
+            waveSucceeded
+                ? "Succeeded"
+                : "Did Not Succeed",
+
+        duration:
+            waveDuration,
+
+        ratingChange:
+            ratingChange,
+
+        ratingBefore:
+            oldRating,
+
+        ratingAfter:
+            newRating
+
+    };
+
+
+    /*
+       Newest wave goes FIRST.
+    */
+
+    waveHistory.unshift(
+        wave
+    );
+
+
+    /*
+       Keep ONLY the newest 5.
+    */
+
+    if (
+        waveHistory.length > 5
+    ) {
+
+        waveHistory =
+            waveHistory.slice(0, 5);
+
+    }
+
+
+    renderWaveHistory();
+
+}
+
+
+/* =========================================================
+   DISPLAY HISTORY
+   ========================================================= */
+
+
+function renderWaveHistory() {
+
+    if (
+        waveHistory.length === 0
+    ) {
+
+        waveHistoryDisplay.innerHTML =
+            `
+            <p style="color:#aaa;">
+                No waves logged yet.
+            </p>
+            `;
+
+        return;
+
+    }
+
+
+    waveHistoryDisplay.innerHTML = "";
+
+
+    waveHistory.forEach(
+        function(wave, index) {
+
+            let changeClass =
+                wave.ratingChange > 0
+                    ? "rating-positive"
+                    : wave.ratingChange < 0
+                        ? "rating-negative"
+                        : "rating-neutral";
+
+
+            let changeText;
+
+
+            if (
+                wave.ratingChange > 0
+            ) {
+
+                changeText =
+                    "+" +
+                    Math.round(
+                        wave.ratingChange
+                    ) +
+                    " Rating";
+
+            } else {
+
+                changeText =
+                    Math.round(
+                        wave.ratingChange
+                    ) +
+                    " Rating";
+
+            }
+
+
+            let durationText =
+                wave.outcome ===
+                "Did Not Succeed"
+                    ? wave.duration +
+                      " min"
+                    : "—";
+
+
+            let historyItem =
+                document.createElement(
+                    "div"
+                );
+
+
+            historyItem.className =
+                "wave-history-item";
+
+
+            historyItem.innerHTML =
+
+                `
+                <div class="wave-history-title">
+                    Wave ${index + 1}
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Source</span>
+                    <span>${wave.source}</span>
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Difficulty</span>
+                    <span>${wave.difficulty}/10</span>
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Outcome</span>
+                    <span>${wave.outcome}</span>
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Minutes Resisted</span>
+                    <span>${durationText}</span>
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Rating Change</span>
+                    <span class="${changeClass}">
+                        ${changeText}
+                    </span>
+                </div>
+
+                <div class="wave-history-row">
+                    <span>Rating After</span>
+                    <span>${Math.round(wave.ratingAfter)}</span>
+                </div>
+                `;
+
+
+            waveHistoryDisplay.appendChild(
+                historyItem
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   UNDO
+   ========================================================= */
+
+
+function undoLastWave() {
+
+    if (
+        undoStack.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       Save the current state for Redo.
+    */
+
+    redoStack.push({
+
+        waveRating:
+            waveRating,
+
+        waveHistory:
+            JSON.parse(
+                JSON.stringify(
+                    waveHistory
+                )
+            )
+
+    });
+
+
+    /*
+       Restore the state before
+       the last wave.
+    */
+
+    let previousState =
+        undoStack.pop();
+
+
+    waveRating =
+        previousState.waveRating;
+
+
+    waveHistory =
+        previousState.waveHistory;
+
+
+    updateStatusBar();
+
+    renderWaveHistory();
+
+    saveGame();
+
+}
+
+
+/* =========================================================
+   REDO
+   ========================================================= */
+
+
+function redoLastWave() {
+
+    if (
+        redoStack.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       Save the current state for Undo.
+    */
+
+    undoStack.push({
+
+        waveRating:
+            waveRating,
+
+        waveHistory:
+            JSON.parse(
+                JSON.stringify(
+                    waveHistory
+                )
+            )
+
+    });
+
+
+    /*
+       Restore the state that was undone.
+    */
+
+    let nextState =
+        redoStack.pop();
+
+
+    waveRating =
+        nextState.waveRating;
+
+
+    waveHistory =
+        nextState.waveHistory;
+
+
+    updateStatusBar();
+
+    renderWaveHistory();
+
+    saveGame();
+
+}
+
+
+undoButton.addEventListener(
+    "click",
+    undoLastWave
+);
+
+
+redoButton.addEventListener(
+    "click",
+    redoLastWave
+);
+
+
+/* =========================================================
+   CONFIRM WAVE
+   ========================================================= */
+
+
+waveConfirm.addEventListener(
+    "click",
+
+    function() {
+
+        /*
+           Save the exact current state
+           BEFORE making the new wave.
+        */
+
+        undoStack.push({
+
+            waveRating:
+                waveRating,
+
+            waveHistory:
+                JSON.parse(
+                    JSON.stringify(
+                        waveHistory
+                    )
+                )
+
+        });
+
+
+        /*
+           A new action after an Undo
+           starts a new branch.
+        */
+
+        redoStack = [];
+
+
+        let oldRating =
+            waveRating;
+
+
+        let ratingChange =
+            calculateWaveRatingChange();
+
+
+        waveRating +=
+            ratingChange;
+
+
+        waveRating =
+            Math.max(
+                1000,
+                Math.min(
+                    6000,
+                    waveRating
+                )
+            );
+
+
+        let actualChange =
+            waveRating -
+            oldRating;
+
+
+        /*
+           Add the completed wave to history
+           BEFORE resetting the form.
+        */
+
+        addWaveToHistory(
+            actualChange,
+            oldRating,
+            waveRating
+        );
+
+
+        updateStatusBar();
+
+
+        /*
+           Show result.
+        */
+
+        if (!waveNatural) {
+
+            if (waveSucceeded) {
+
+                waveResultDisplay.textContent =
+                    "Intended wave → No rating change";
+
+            } else {
+
+                waveResultDisplay.textContent =
+                    "Intended wave → " +
+                    Math.round(actualChange) +
+                    " Rating";
+
+            }
+
+        } else {
+
+            if (actualChange >= 0) {
+
+                waveResultDisplay.textContent =
+                    "Difficulty " +
+                    waveDifficulty +
+                    " → +" +
+                    Math.round(actualChange) +
+                    " Rating";
+
+            } else {
+
+                waveResultDisplay.textContent =
+                    "Difficulty " +
+                    waveDifficulty +
+                    " → " +
+                    Math.round(actualChange) +
+                    " Rating";
+
+            }
+
+        }
+
+
+        /*
+           Reset wave form.
+        */
+
+        waveDifficulty = 1;
+
+        waveSucceeded = false;
+
+        waveDuration = 0;
+
+        waveNatural = true;
+
+
+        waveDifficultyCount.textContent =
+            "1";
+
+
+        waveDurationCount.textContent =
+            "0";
+
+
+        waveNatureButton.textContent =
+            "🟢 Natural";
+
+
+        waveNatureButton.classList.remove(
+            "wave-intended"
+        );
+
+
+        waveNatureButton.classList.add(
+            "wave-natural"
+        );
+
+
+        waveOutcomeButton.textContent =
+            "🔴 Did Not Succeed";
+
+
+        waveOutcomeButton.classList.remove(
+            "wave-success"
+        );
+
+
+        waveOutcomeButton.classList.add(
+            "wave-failure"
+        );
+
+
+        waveDurationBox.style.display =
+            "block";
+
+
+        saveGame();
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+
+updateStatusBar();
+
+renderWaveHistory();
+
+</script>
+
+
+</body>
+
+</html>
